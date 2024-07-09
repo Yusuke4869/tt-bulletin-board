@@ -11,7 +11,9 @@ const Header: FC = () => (
     </div>
     <div className="mt-3 ml-auto mr-4 sm:mt-0 sm:ml-0 sm:mr-12">
       <Link href="/threads/new">
-        <button className="text-sm sm:text-base text-white bg-blue-600 rounded-md px-4 py-2">新規スレッド作成</button>
+        <button className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 rounded-md px-4 py-2">
+          新規スレッド作成
+        </button>
       </Link>
     </div>
   </header>
