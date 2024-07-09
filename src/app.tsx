@@ -1,4 +1,3 @@
-import "destyle.css";
 import { StrictMode } from "react";
 import "~/styles/global.css";
 
