@@ -1,6 +1,6 @@
 import "destyle.css";
 import { StrictMode } from "react";
-import "~/styles/global.scss";
+import "~/styles/global.css";
 
 import Router from "./routes";
 
