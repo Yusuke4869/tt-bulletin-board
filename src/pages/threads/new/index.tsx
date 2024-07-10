@@ -75,8 +75,9 @@ const CreateThread: FC = () => {
           </Link>
           <button
             className="bg-green-600 hover:bg-green-700 text-white font-bold rounded py-2 px-4"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={create}
+            onClick={() => {
+              void create();
+            }}
             type="button"
           >
             スレッドを作成

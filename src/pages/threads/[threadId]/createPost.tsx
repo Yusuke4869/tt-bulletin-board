@@ -67,8 +67,9 @@ const CreatePost: FC<Props> = ({ threadId, refresh }) => {
       </div>
       <button
         className="bg-green-600 hover:bg-green-700 text-white font-bold rounded py-2 px-4 mt-2"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onClick={create}
+        onClick={() => {
+          void create();
+        }}
         type="button"
       >
         投稿
