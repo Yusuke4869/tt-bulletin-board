@@ -1,19 +1,20 @@
-import { useState, useEffect } from "react";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
 import useSWRInfinite from "swr/infinite";
-import { useRoute, Link } from "wouter";
+import { useRoute } from "wouter";
 
 import Layout from "~/components/layout";
+import { getThreadsAtom } from "~/stores/store";
 import { fetcher } from "~/utils/fetcher";
 
 import { CreatePost } from "./createPost";
 
 import type { FC } from "react";
-import type { ThreadInfo, PostList } from "~/types/api";
+import type { PostList } from "~/types/api";
 
 const Thread: FC = () => {
   const [match, params] = useRoute("/threads/:threadId");
-  const [title, setTitle] = useState<string>("");
-  const [threadOffset, setThreadOffset] = useState<number | null>(null);
+  const [threads, initial] = useAtom(getThreadsAtom);
 
   const getPost = (pageIndex: number, previousPageData: PostList[]) => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -29,50 +30,17 @@ const Thread: FC = () => {
     await mutate();
   };
 
-  /**
-   * スレッド一覧を順番に取得し、指定されたスレッドのタイトルを取得する
-   */
   useEffect(() => {
-    if (match && title === "") {
-      void (async () => {
-        let found = false;
-        for (let i = 0; ; i += 10) {
-          const res = await fetch(`${import.meta.env.VITE_API_URL}/threads?offset=${i.toString()}`);
-          if (!res.ok) break;
-
-          const json = (await res.json()) as ThreadInfo[];
-          for (const thread of json) {
-            if (thread.id !== params.threadId) continue;
-
-            found = true;
-            setTitle(thread.title);
-            setThreadOffset(i / 10 + 1);
-            break;
-          }
-
-          if (found) break;
-        }
-      })();
-    }
+    void initial();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params?.threadId]);
+  }, []);
 
   if (!match) return <div>404, Not Found</div>;
   return (
     <Layout>
-      <h1 className="text-3xl font-bold text-center pt-10">{title === "" ? "スレッド投稿一覧" : title}</h1>
-      {threadOffset !== null && (
-        <div className="flex justify-center items-center my-4">
-          <Link href={`/?page=${threadOffset.toString()}`}>
-            <button
-              className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 rounded-md px-4 py-1"
-              type="button"
-            >
-              スレッド一覧に戻る
-            </button>
-          </Link>
-        </div>
-      )}
+      <h1 className="text-3xl font-bold text-center mt-10 mb-6">
+        {threads.find((thread) => thread.id === params.threadId)?.title ?? "スレッド投稿一覧"}
+      </h1>
       <div className="mx-[5%] md:mx-[20%] lg:mx-[25%]">
         {data?.map((page, i) => (
           <div key={i}>
@@ -83,7 +51,7 @@ const Thread: FC = () => {
             ))}
           </div>
         ))}
-        {!isReachingEnd && (
+        {data && !isReachingEnd && (
           <div className="flex justify-center items-center my-4">
             <button
               className="text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-700 rounded-md px-4 py-1"

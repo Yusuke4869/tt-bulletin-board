@@ -1,7 +1,9 @@
+import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { Link } from "wouter";
 
 import Layout from "~/components/layout";
+import { addThreadsAtom } from "~/stores/store";
 
 import type { FC } from "react";
 import type { CreateThreadResponse, APIError } from "~/types/api";
@@ -10,6 +12,7 @@ const CreateThread: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [error, setError] = useState<APIError | null>(null);
   const [newThread, setNewThread] = useState<CreateThreadResponse | null>(null);
+  const setThreads = useSetAtom(addThreadsAtom);
 
   const create = async () => {
     setError(null);
@@ -32,6 +35,7 @@ const CreateThread: FC = () => {
     const data = (await res.json()) as CreateThreadResponse;
     setTitle("");
     setNewThread(data);
+    setThreads([data]);
   };
 
   return (

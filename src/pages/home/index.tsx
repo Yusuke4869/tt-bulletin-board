@@ -1,7 +1,9 @@
+import { useSetAtom } from "jotai";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 
 import Layout from "~/components/layout";
+import { addThreadsAtom } from "~/stores/store";
 import { fetcher } from "~/utils/fetcher";
 
 import Pagination from "./pagination";
@@ -15,8 +17,14 @@ const Home: FC = () => {
   const [page, setPage] = useState<number>(Number(params.get("page")) || 1);
   const [offset, setOffset] = useState<number>(page > 1 ? (page - 1) * 10 : 0);
   const [sideLength, setSideLength] = useState<number>(window.innerWidth < 640 ? 1 : 3);
+  const setThreads = useSetAtom(addThreadsAtom);
 
   const { data } = useSWR<ThreadInfo[]>(`${import.meta.env.VITE_API_URL}/threads?offset=${offset.toString()}`, fetcher);
+
+  useEffect(() => {
+    setThreads(data ?? []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     if (page <= 1) {
