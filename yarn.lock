@@ -1732,6 +1732,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.7"
     husky: "npm:^9.0.0"
+    jotai: "npm:^2.9.0"
     lint-staged: "npm:^15.0.0"
     postcss: "npm:^8.4.18"
     prettier: "npm:^3.0.0"
@@ -4338,6 +4339,21 @@ __metadata:
   bin:
     jiti: bin/jiti.js
   checksum: 10c0/05b9ed58cd30d0c3ccd3c98209339e74f50abd9a17e716f65db46b6a35812103f6bde6e134be7124d01745586bca8cc5dae1d0d952267c3ebe55171949c32e56
+  languageName: node
+  linkType: hard
+
+"jotai@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "jotai@npm:2.9.0"
+  peerDependencies:
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10c0/c5551fb90933bcbc28b11cdb4af681398a12f8eb39a4a49568ec6ce5062c2257dd84a85cbfd7ec7d970d56dfa5023d16a0ec7056bc2697fdf9b3ec94da67c9d1
   languageName: node
   linkType: hard
 
